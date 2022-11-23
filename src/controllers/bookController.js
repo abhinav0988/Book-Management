@@ -3,18 +3,20 @@ const mongoose = require("mongoose")
 const moment = require("moment")
 const userModel = require("../models/userModel")
 const reviewModel = require("../models/reviewModel")
+const awscontroller = require("../aws/awsController")
 
 const createBook = async function (req, res) {
     try {
         let data = req.body
         let file=req.file
-        if(file && file.length>0) var uploadedfileURL= await awsController.uploadfile([0])
-        data.bookcover=uploadedfileURL
-        data=JSON.parse(JSON.stringify(data))
+        if(file && file.length>0) var uploadedfileURL= await awscontroller.uploadfile([0])
+       
 
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "Please input data!" })
 
-        let { title, excerpt, userId, ISBN, category, subcategory, releasedAt } = data
+        let { title, excerpt, userId, ISBN, category, subcategory, releasedAt,bookcover } = data
+        data.bookcover=uploadedfileURL
+        data=JSON.parse(JSON.stringify(data))
 
         if (!title) return res.status(400).send({ status: false, msg: "Please insert title!" })
         let uniqueTitle = await bookModel.findOne({ title: title })

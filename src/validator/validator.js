@@ -6,7 +6,7 @@ const isValid = function(value) {       //Ask TA
 }
 
 const reg = function(value){
-return /^[A-Z a-z]+$/.test(value)
+return  /^[A-Z a-z]+$/.test(value)
 }
 
 
